@@ -22,8 +22,8 @@ body:
 - type: textarea
   attributes:
     label: "Expected Behaviour"
-    description: "What did you expect JDA to do?"
-    placeholder: "JDA should do ..."
+    description: "What did you expect JDA/JDA-Commons to do?"
+    placeholder: "JDA/JDA-Commons should do ..."
   validations:
     required: true
 - type: textarea
