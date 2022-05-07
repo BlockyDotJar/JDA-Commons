@@ -23,7 +23,7 @@ body:
   attributes:
     label: "Feature Request"
     description: "Provide a small description of the feature you want to have added."
-    placeholder: "JDA should get ..."
+    placeholder: "JDA-Commons should get ..."
   validations:
     required: true
 - type: textarea
