@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord
+    url: https://discord.gg/FnGFbzCw2r
+    about: The JDA-Commons Discord is the best place to receive fast support for your questions.
+  - name: Releases
+    url: https://github.com/BlockyDotJar/JDA-Commons/releases
+    about: You can find the latest releases here on GitHub.
+  - name: Questions
+    url: https://github.com/BlockyDotJar/JDA-Commons/discussions
+    about: You can ask questions about JDA/JDA-Commons and find useful information in our Discussions.
