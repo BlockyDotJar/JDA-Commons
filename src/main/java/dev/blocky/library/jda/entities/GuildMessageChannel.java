@@ -1,3 +1,18 @@
+/**
+ * Copyright 2022 Dominic (aka. BlockyDotJar)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.blocky.library.jda.entities;
 
 import dev.blocky.library.jda.entities.impl.DataImpl;
@@ -26,10 +41,18 @@ import java.util.stream.Collectors;
  * @version v2.0.0
  * @since v1.0.0-alpha.1
  */
-public class GuildMessageChannel {
+public class GuildMessageChannel extends Utility {
     private static final Logger logger = LoggerFactory.getLogger(GuildTextChannel.class);
-    private final MessageChannel channel;
+    private MessageChannel channel;
     private Member member;
+
+    /**
+     * Constructs a new {@link GuildMessageChannel Guild Message Channel}
+     * <br>
+     * This is a private constructor, because it should not be accessed for other classes
+     */
+    private GuildMessageChannel() {
+    }
 
     /**
      * Constructs a <b>new</b> {@link GuildMessageChannel Guild Message Channel} instance. If you don't
@@ -406,15 +429,15 @@ public class GuildMessageChannel {
      * CompletionStage.exceptionally(Function)} to handle failures.
      *
      * @param amount The amount of messages to delete
-     * @param clear  The Safety Clear option, which helps for specifying different message types, which will not be deleted
-     * @return List of futures representing all deletion task
+     * @param clear  The {@link SafetyClear Safety Clear} option, which helps for specifying different message types, which will not be deleted
+     * @return {@link List List} of futures representing all deletion task
      */
     @Nonnull
     public List<CompletableFuture<Void>> purgeMessages(int amount, @Nullable SafetyClear clear) {
         if (amount == 0) {
             logger.error("The amount can not be 0", new IllegalArgumentException());
         }
-        return channel.purgeMessages(Utility.checkClearSafety(clear, channel, amount));
+        return channel.purgeMessages(checkClearSafety(clear, channel, amount));
     }
 
     /**
@@ -422,8 +445,8 @@ public class GuildMessageChannel {
      * No checks will be done to prevent failures, use {@link java.util.concurrent.CompletionStage#exceptionally(Function)
      * CompletionStage.exceptionally(Function)} to handle failures.
      *
-     * @param clear The Safety Clear option, which helps for specifying different message types, which will not be deleted
-     * @return List of futures representing all deletion task
+     * @param clear The {@link SafetyClear Safety Clear} option, which helps for specifying different message types, which will not be deleted
+     * @return {@link List List} of futures representing all deletion task
      */
     @Nullable
     public List<CompletableFuture<Void>> purgeChannel(@Nullable SafetyClear clear) {
@@ -435,7 +458,7 @@ public class GuildMessageChannel {
      * No checks will be done to prevent failures, use {@link java.util.concurrent.CompletionStage#exceptionally(Function)
      * CompletionStage.exceptionally(Function)} to handle failures.
      *
-     * @return List of futures representing all deletion task
+     * @return {@link List List} of futures representing all deletion task
      */
     @Nonnull
     public List<CompletableFuture<Void>> purgeChannel() {
@@ -447,8 +470,8 @@ public class GuildMessageChannel {
      *
      * @param content     The message content, which should be checked
      * @param checkAmount The Amount of messages, which should be checked
-     * @return <b>true</b> If the content, you specified, is written in this channel
-     * <b>false</b> If the content, you specified, is not written in this channel
+     * @return <b>true -</b> If the content, you specified, is written in this channel <br>
+     *       <b>false -</b> If the content, you specified, is not written in this channel
      */
     public boolean containsMessage(@Nonnull String content, int checkAmount) {
         for (Message message : channel.getIterableHistory().cache(false)) {
@@ -478,7 +501,7 @@ public class GuildMessageChannel {
     /**
      * This works like a normal Message sending, but with more given options and a delay between using the command.
      * <br>
-     * You must specify a delay for timeouting a command. (the long delayInSeconds <b>must not equal to 0</b>. If this
+     * You must specify a delay to time out a command. (the long delayInSeconds <b>must not equal to 0</b>. If this
      * is true a {@link IllegalArgumentException IllegalArgumentException} will be thrown)
      * <br>
      * You also can specify a delay error message, which will be sent if you are under a delay. (if whileDelayErrorMessage
@@ -527,7 +550,7 @@ public class GuildMessageChannel {
     /**
      * This works like a normal Message sending, but with more given options and a delay between using the command.
      * <br>
-     * You must specify a delay for timeouting a command. (the long delayInSeconds <b>must not equal to 0</b>. If this
+     * You must specify a delay  to time out a command. (the long delayInSeconds <b>must not equal to 0</b>. If this
      * is true a {@link IllegalArgumentException IllegalArgumentException} will be thrown)
      * <br>
      * You also can specify a delay error message embed, which will be sent if you are under a delay. (if whileDelayErrorMessage
@@ -576,7 +599,7 @@ public class GuildMessageChannel {
     /**
      * This works like a normal embedded Message sending, but with more given options and a delay between using the command.
      * <br>
-     * You must specify a delay for timeouting a command. (the long delayInSeconds <b>must not equal to 0</b>. If this
+     * You must specify a delay  to time out a command. (the long delayInSeconds <b>must not equal to 0</b>. If this
      * is true a {@link IllegalArgumentException IllegalArgumentException} will be thrown)
      * <br>
      * You also can specify a delay error message, which will be sent if you are under a delay. (if whileDelayErrorMessage
@@ -625,7 +648,7 @@ public class GuildMessageChannel {
     /**
      * This works like a normal embedded Message sending, but with more given options and a delay between using the command.
      * <br>
-     * You must specify a delay for timeouting a command. (the long delayInSeconds <b>must not equal to 0</b>. If this
+     * You must specify a delay to time out a command. (the long delayInSeconds <b>must not equal to 0</b>. If this
      * is true a {@link IllegalArgumentException IllegalArgumentException} will be thrown)
      * <br>
      * You also can specify a delay error message embed, which will be sent if you are under a delay. (if whileDelayErrorMessage

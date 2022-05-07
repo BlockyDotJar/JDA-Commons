@@ -1,6 +1,7 @@
+/**
+ * No Copyright because of deprecation
+ */
 package dev.blocky.library.jda.entities.impl;
-
-import java.text.DecimalFormat;
 
 import dev.blocky.library.jda.annotations.DeprecatedSince;
 import dev.blocky.library.jda.annotations.ForRemoval;
@@ -12,6 +13,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.SelectMenuInteractionEvent;
+
+import java.text.DecimalFormat;
 
 @Deprecated
 @DeprecatedSince(version = "v1.0.0")

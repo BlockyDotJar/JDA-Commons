@@ -1,3 +1,18 @@
+/**
+ * Copyright 2022 Dominic (aka. BlockyDotJar)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.blocky.library.jda;
 
 import dev.blocky.library.jda.enums.SafetyClear;
@@ -5,6 +20,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,16 +36,25 @@ import java.util.concurrent.TimeUnit;
 public class Utility {
 
     /**
-     * Checks, which {@link SafetyClear Safety Clear} enum is given. (if clear equals null, the Safety Clear enum will be
-     * set to {@link SafetyClear#NONE SafetyClear.NONE})
+     * Constructs a new {@link Utility Utility}
+     * <br>
+     * This is a private constructor, because it should not be accessed for other classes
+     */
+    protected Utility() {
+    }
+
+    /**
+     * Checks, which {@link SafetyClear Safety Clear} {@link Enum enum} is given. (if clear equals null, the
+     * {@link SafetyClear Safety Clear} {@link Enum enum}  will be set to {@link SafetyClear#NONE SafetyClear.NONE})
      *
-     * @param clear   The Safety Clear option, which helps for specifying different message types, which will not be deleted
-     * @param channel The {@link net.dv8tion.jda.api.entities.TextChannel Text Channel}, which
+     * @param clear   The {@link SafetyClear Safety Clear} option, which helps for specifying different message types, which will not be deleted
+     * @param channel The {@link TextChannel Text Channel}, which
      *                should be initialized.
      * @param amount  The amount of messages to delete
-     * @return List of futures representing all deletion task
+     * @return {@link List List} of futures representing all deletion task
      */
-    public static List<Message> checkClearSafety(SafetyClear clear, TextChannel channel, int amount) {
+    @Nullable
+    protected static List<Message> checkClearSafety(@Nullable SafetyClear clear, @Nonnull TextChannel channel, int amount) {
         List<Message> messages = new ArrayList<>();
 
         if (clear == null) {
@@ -72,16 +98,17 @@ public class Utility {
     }
 
     /**
-     * Checks, which {@link SafetyClear Safety Clear} enum is given. (if clear equals null, the Safety Clear enum will be
-     * set to {@link SafetyClear#NONE SafetyClear.NONE})
+     * Checks, which {@link SafetyClear Safety Clear} {@link Enum enum} is given. (if clear equals null, the
+     * {@link SafetyClear Safety Clear} {@link Enum enum}  will be set to {@link SafetyClear#NONE SafetyClear.NONE})
      *
-     * @param clear   The Safety Clear option, which helps for specifying different message types, which will not be deleted
-     * @param channel The {@link net.dv8tion.jda.api.entities.MessageChannel Message Channel}, which
+     * @param clear   The {@link SafetyClear Safety Clear} option, which helps for specifying different message types, which will not be deleted
+     * @param channel The {@link MessageChannel Message Channel}, which
      *                should be initialized.
      * @param amount  The amount of messages to delete
-     * @return List of futures representing all deletion task
+     * @return {@link List List} of futures representing all deletion task
      */
-    public static List<Message> checkClearSafety(SafetyClear clear, MessageChannel channel, int amount) {
+    @Nullable
+    protected static List<Message> checkClearSafety(@Nullable SafetyClear clear, @Nonnull MessageChannel channel, int amount) {
         List<Message> messages = new ArrayList<>();
 
         if (clear == null) {
@@ -125,15 +152,63 @@ public class Utility {
     }
 
     /**
-     * Checks, which {@link SafetyClear Safety Clear} enum is given. (if clear equals null, the Safety Clear enum will be
-     * set to {@link SafetyClear#NONE SafetyClear.NONE})
+     * Checks, which {@link SafetyClear Safety Clear} {@link Enum enum} is given. (if clear equals null, the
+     * {@link SafetyClear Safety Clear} {@link Enum enum} will be set to {@link SafetyClear#NONE SafetyClear.NONE})
      *
-     * @param clear   The Safety Clear option, which helps for specifying different message types, which will not be deleted
-     * @param channel The {@link net.dv8tion.jda.api.entities.TextChannel Text Channel}, which
+     * @param channel The {@link TextChannel Text Channel}, which
      *                should be initialized.
-     * @return List of futures representing all deletion task
+     * @return {@link List List} of futures representing all deletion task
      */
-    public static List<Message> checkChannelClearSafety(SafetyClear clear, TextChannel channel) {
+    @Nullable
+    protected static List<Message> checkChannelClearSafety(@Nullable SafetyClear clear, @Nonnull TextChannel channel) {
+        List<Message> messages = new ArrayList<>();
+
+        if (null == null) {
+            clear = SafetyClear.NONE;
+        }
+
+        for (Message message : channel.getIterableHistory().cache(false)) {
+            switch (clear) {
+                case NONE:
+                    if (message.isFromGuild()) {
+                        messages.add(message);
+                    }
+                    break;
+                case ALL:
+                    if (!message.isEdited() && !message.isPinned() && !message.isWebhookMessage()) {
+                        messages.add(message);
+                    }
+                    break;
+                case PINNED_MESSAGES:
+                    if (!message.isPinned()) {
+                        messages.add(message);
+                    }
+                    break;
+                case WEBHOOK_MESSAGES:
+                    if (!message.isWebhookMessage()) {
+                        messages.add(message);
+                    }
+                    break;
+                case EDITED_MESSAGES:
+                    if (!message.isEdited()) {
+                        messages.add(message);
+                    }
+                    break;
+            }
+        }
+        return messages;
+    }
+
+    /**
+     * Checks, which {@link SafetyClear Safety Clear} {@link Enum enum} is given. (if clear equals null, the
+     * {@link SafetyClear Safety Clear} {@link Enum enum} will be set to {@link SafetyClear#NONE SafetyClear.NONE})
+     *
+     * @param channel The {@link MessageChannel Message Channel}, which
+     *                should be initialized.
+     * @return {@link List List} of futures representing all deletion task
+     */
+    @Nullable
+    protected static List<Message> checkChannelClearSafety(@Nullable SafetyClear clear, @Nonnull MessageChannel channel) {
         List<Message> messages = new ArrayList<>();
 
         if (clear == null) {
@@ -173,62 +248,14 @@ public class Utility {
     }
 
     /**
-     * Checks, which {@link SafetyClear Safety Clear} enum is given. (if clear equals null, the Safety Clear enum will be
-     * set to {@link SafetyClear#NONE SafetyClear.NONE})
-     *
-     * @param clear   The Safety Clear option, which helps for specifying different message types, which will not be deleted
-     * @param channel The {@link net.dv8tion.jda.api.entities.MessageChannel Message Channel}, which
-     *                should be initialized.
-     * @return List of futures representing all deletion task
-     */
-    public static List<Message> checkChannelClearSafety(SafetyClear clear, MessageChannel channel) {
-        List<Message> messages = new ArrayList<>();
-
-        if (clear == null) {
-            clear = SafetyClear.NONE;
-        }
-
-        for (Message message : channel.getIterableHistory().cache(false)) {
-            switch (clear) {
-                case NONE:
-                    if (message.isFromGuild()) {
-                        messages.add(message);
-                    }
-                    break;
-                case ALL:
-                    if (!message.isEdited() && !message.isPinned() && !message.isWebhookMessage()) {
-                        messages.add(message);
-                    }
-                    break;
-                case PINNED_MESSAGES:
-                    if (!message.isPinned()) {
-                        messages.add(message);
-                    }
-                    break;
-                case WEBHOOK_MESSAGES:
-                    if (!message.isWebhookMessage()) {
-                        messages.add(message);
-                    }
-                    break;
-                case EDITED_MESSAGES:
-                    if (!message.isEdited()) {
-                        messages.add(message);
-                    }
-                    break;
-            }
-        }
-        return messages;
-    }
-
-    /**
-     * Calculates the delay, depending on which {@link TimeUnit TimeUnit} is given
+     * Calculates the delay, depending on which {@link TimeUnit Time Unit} is given
      *
      * @param unit           The {@link TimeUnit TimeUnit}, which should be used for calculating each time (if unit equals null the
      *                       default {@link TimeUnit TimeUnit} will bes used [{@link TimeUnit#SECONDS TimeUnit.SECONDS}])
      * @param delayInSeconds The delay in seconds which should be converted
      * @return The delay calculated to the specified {@link TimeUnit TimeUnit}
      */
-    public static long calculateDelay(TimeUnit unit, long delayInSeconds) {
+    protected static long calculateDelay(@Nullable TimeUnit unit, long delayInSeconds) {
         if (unit == null) {
             unit = TimeUnit.SECONDS;
         }

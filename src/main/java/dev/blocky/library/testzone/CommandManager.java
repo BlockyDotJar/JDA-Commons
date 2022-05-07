@@ -1,22 +1,36 @@
+/**
+ * Copyright 2022 Dominic (aka. BlockyDotJar)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.blocky.library.testzone;
 
-import java.util.Arrays;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Pattern;
-
-import dev.blocky.library.testzone.commands.HelloWorldCommand;
 import dev.blocky.library.jda.interfaces.ICommand;
-
-import net.dv8tion.jda.api.entities.*;
+import dev.blocky.library.testzone.commands.HelloWorldCommand;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 /**
  * This is a class, which manages default message commands
@@ -31,12 +45,12 @@ public class CommandManager extends ListenerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(CommandManager.class);
 
     @Override
-    public void onReady(@Nonnull ReadyEvent event) {
+    public void onReady(@NotNull ReadyEvent event) {
         logger.info("{} successfully connected to the discord network and finally logged in.", event.getJDA().getSelfUser().getAsTag());
     }
 
     @Override
-    public void onShutdown(@Nonnull ShutdownEvent event) {
+    public void onShutdown(@NotNull ShutdownEvent event) {
         logger.info("{} successfully disconnected from the discord network and finally logged out.", event.getJDA().getSelfUser().getAsTag());
     }
 
@@ -54,15 +68,11 @@ public class CommandManager extends ListenerAdapter {
      * Checks if {@link ICommand the Command
      * Interface} equals to null or not
      *
-     * @param command The {@link java.lang.String String} of the command
-     * @param event   The
-     *                {@link net.dv8tion.jda.api.events.message.MessageReceivedEvent
-     *                MessageReceivedEvent}, which should used for the commands
+     * @param command The {@link String String} of the command
+     * @param event   The {@link MessageReceivedEvent MessageReceivedEvent}, which should used for the commands
      * @param args    The {@link java.lang.reflect.Array Array} of Strings, which should be initialized
-     * @return true If {@link ICommand the
-     * Command Interface} does not equal to null <br>
-     * false - If {@link ICommand the
-     * Command Interface} equals to null
+     * @return <b>true -</b> If {@link ICommand the Command Interface} does not equal to null <br>
+     * <b>false -</b> If {@link ICommand the Command Interface} equals to null
      */
     public boolean onMessage(@Nullable String command, @Nonnull MessageReceivedEvent event, @Nonnull String[] args) {
         ICommand cmd = commands.get(command.toLowerCase());
@@ -73,7 +83,7 @@ public class CommandManager extends ListenerAdapter {
     }
 
     @Override
-    public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         String message = event.getMessage().getContentDisplay();
 
         if (event.isFromType(ChannelType.TEXT)) {

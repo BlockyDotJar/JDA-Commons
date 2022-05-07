@@ -19,6 +19,10 @@
  * <li>{@link dev.blocky.library.jda.entities.GuildTargetMember  Guild Target Member} <br>
  * Represents the {@link net.dv8tion.jda.api.entities.Member member} instance for the target
  * {@link net.dv8tion.jda.api.entities.User User}. </li>
+ *
+ * <li>{@link dev.blocky.library.jda.entities.SelfMember  Self Member} <br>
+ * Represents the Self Member (aka. the bot itself) of a specific {@link net.dv8tion.jda.api.entities.Guild Guild}.
+ * </li>
  * </ul>
  */
 package dev.blocky.library.jda.entities;
