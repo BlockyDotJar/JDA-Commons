@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord
+    url: https://discord.gg/FnGFbzCw2r
+    about: The JDA-Commons Discord is the best place to receive fast support for your questions.
+  - name: Javadoc
+    url: https://BlockyDotJar.github.io/JDA-Commons
+    about: The Javadoc is the perfect place to retrieve information about various methods within JDA-Commons.
+  - name: Wiki
+    url: https://github.com/BlockyDotJar/JDA-Commons/wiki
+    about: You can find answers to common questions on our Wiki.
+  - name: Releases
+    url: https://github.com/BlockyDotJar/JDA-Commons/releases
+    about: You can find the latest releases here on GitHub.
+  - name: Questions
+    url: https://github.com/BlockyDotJar/JDA-Commons/discussions
+    about: You can ask questions about JDA/JDA-Commons and find useful information in our Discussions.
