@@ -214,7 +214,7 @@ More can be found in the GitHub organization: [JDA-Applications](https://github.
 This project requires **Java 8+**
 
 * JDA (Java Discord API)
-  * Version: **v5.0.0-alpha.15**
+  * Version: **v5.0.0-alpha.16**
   * [Github](https://github.com/DV8FromTheWorld/JDA)
 * slf4j-api
   * Version: **v1.7.36**
